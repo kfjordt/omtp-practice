@@ -94,12 +94,6 @@ QUESTIONS = {
     }
 }
 
-# def get_all_questions():
-#     with open(QUESTIONS_FILE_PATH, "r") as questions_file:
-#         questions_json = json.load(questions_file)
-#         return questions_json
-
-
 def get_state():
     with open(STATE_FILE_PATH, "r") as state_file:
         return json.load(state_file)
@@ -111,7 +105,6 @@ def dump_state(state: dict):
 
 
 def initialize_state_file():
-    # questions = get_all_questions()
     state = {}
     for topic_id in QUESTIONS:
         question_count = len(QUESTIONS[topic_id]["questions"])
@@ -144,7 +137,6 @@ def get_random_question_and_mark_as_complete():
     topic_id, question_idx = random.choice(unseen_question_tuples)
     mark_question_as_complete(topic_id, question_idx)
 
-    # questions = get_all_questions()
     topic_name = QUESTIONS[topic_id]["topic_name"]
     question_content = QUESTIONS[topic_id]["questions"][question_idx]
 
