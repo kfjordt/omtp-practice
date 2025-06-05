@@ -2,9 +2,9 @@ import random
 import json
 import os
 
-
+KEY_FILE_PATH = "key.txt"
 STATE_FILE_PATH = "state.json"
-QUESTIONS_FILE_PATH = "questions_by_topic.json"
+MODEL_NAME = "gemini-1.5-flash"
 QUESTIONS = {
     "1": {
         "topic_name": "Anatomy of a manipulation system",
@@ -100,17 +100,37 @@ QUESTIONS = {
         ],
     },
 }
+CYAN = "\033[96m"
+YELLOW = "\033[93m"
+GREEN = "\033[92m"
+RED = "\033[91m"
+MAGENTA = "\033[95m"
+BLUE = "\033[94m"
+RESET = "\033[0m"
 
+def get_llm_model():
+    module_found = False
+    try:
+        import google.generativeai as genai
+        module_found = True
+    except:
+        pass
+
+    if os.path.exists(KEY_FILE_PATH) and module_found:
+        with open(KEY_FILE_PATH, "r") as api_key_file:
+            key = api_key_file.read()
+        genai.configure(api_key=key)
+        return genai.GenerativeModel(MODEL_NAME)
+    else:
+        return None
 
 def get_state():
     with open(STATE_FILE_PATH, "r") as state_file:
         return json.load(state_file)
 
-
 def dump_state(state: dict):
     with open(STATE_FILE_PATH, "w") as state_file:
         json.dump(state, state_file, indent=4)
-
 
 def initialize_state_file():
     state = {}
@@ -119,16 +139,13 @@ def initialize_state_file():
         state[topic_id] = [False for _ in range(question_count)]
     dump_state(state)
 
-
 def does_state_file_exist():
     return os.path.exists(STATE_FILE_PATH)
-
 
 def mark_question_as_complete(topic_id: str, question_idx: int):
     state = get_state()
     state[topic_id][question_idx] = True
     dump_state(state)
-
 
 def get_random_question_and_mark_as_complete():
     state = get_state()
@@ -139,7 +156,7 @@ def get_random_question_and_mark_as_complete():
                 unseen_question_tuples.append((topic, question_state_idx))
 
     if len(unseen_question_tuples) == 0:
-        print("No questions remaining")
+        print(RED + "No questions remaining" + RESET)
         return
 
     topic_id, question_idx = random.choice(unseen_question_tuples)
@@ -149,7 +166,6 @@ def get_random_question_and_mark_as_complete():
     question_content = QUESTIONS[topic_id]["questions"][question_idx]
 
     return topic_id, topic_name, question_content
-
 
 def get_completion_rate():
     completed_questions = 0
@@ -162,34 +178,73 @@ def get_completion_rate():
                 completed_questions += 1
     return completed_questions, question_count_total
 
+def prompt_llm(prompt: str, llm_model) -> str:
+    try:
+        grounded_prompt = (
+            "You are going to give a response that will be read in a terminal, so there is no Markdown support. "
+            "Your response needs to be easily understandable when read as plain text. "
+            f"The question you will reply to is: {prompt}"
+        )
+        response = llm_model.generate_content(grounded_prompt)
+        return response.text
+    except Exception as e:
+        print(RED + f"Error occurred when prompting LLM:\n{e}" + RESET)
 
 if not does_state_file_exist():
     initialize_state_file()
 
+llm_model = get_llm_model()
+
+print(f"LLM available? {GREEN + 'Yes' + RESET if llm_model is not None else RED + 'No' + RESET}")
+
 while True:
     try:
-        print("\nOMTP Practice June 2025")
-        print("1 - Get question")
-        print("2 - Get completion rate")
-        print("3 - Reset state")
-        print("4 - Exit")
+        print()
+        print(CYAN + "1 - Get question" + RESET)
+        print(CYAN + "2 - Get completion rate" + RESET)
+        print(CYAN + "3 - Reset state" + RESET)
+        print(CYAN + "4 - Exit" + RESET)
 
         choice = input("")
         if choice == "1":
-            topic_id, topic_name, question_content = get_random_question_and_mark_as_complete()
-            print(f"\nTopic #{topic_id}: {topic_name}")
-            print(question_content)
-            input("\nPress any key to continue.")
+            result = get_random_question_and_mark_as_complete()
+            if not result:
+                continue
+            topic_id, topic_name, question_content = result
+            print()
+            print(f"{YELLOW}Topic #{topic_id}: {topic_name}{RESET}")
+            print(YELLOW + question_content + RESET)
+            while True:
+                print()
+                print(CYAN + "1 - Finish question" + RESET)
+                print(CYAN + "2 - Get LLM reply" + RESET)
+                inner_choice = input("")
+                if inner_choice == "1":
+                    break
+                elif inner_choice == "2":
+                    if llm_model is not None:
+                        chat_gpt_answer = prompt_llm(question_content, llm_model)
+                        print()
+                        print(GREEN + chat_gpt_answer + RESET)
+                    else:
+                        print(RED + "LLM not available." + RESET)
+                else:
+                    print(RED + "Incorrect input detected." + RESET)
         elif choice == "2":
             completed_questions, question_count_total = get_completion_rate()
             completion_percent = (completed_questions / float(question_count_total)) * 100
-            print(f"\nCurrent completion rate: {completed_questions}/{question_count_total} ({completion_percent:.1f}%)")
+            print(
+                MAGENTA
+                + f"\nCurrent completion rate: {completed_questions}/{question_count_total} ({completion_percent:.1f}%)"
+                + RESET
+            )
         elif choice == "3":
             initialize_state_file()
+            print(BLUE + "State has been reset." + RESET)
         elif choice == "4":
             break
         else:
-            print("Incorrect input detected.")
+            print(RED + "Incorrect input detected." + RESET)
     except KeyboardInterrupt:
         break
 
