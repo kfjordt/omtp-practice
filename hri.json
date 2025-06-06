@@ -1,0 +1,84 @@
+{
+  "0": {
+    "topic_name": "Introduction to HRI",
+    "questions": [
+      "What are questions that HRI is asking compared to Robotics in general?",
+      "Why is gaze a relevant input modality when working with collaborative robots?",
+      "How can gestures be used for robot control?",
+      "Discuss some of the challenges when robots have to interact in public spaces with untrained operators.",
+      "What is the difference between Industry 4.0 and 5.0 and why is HRI increasingly relevant in Industry 5.0?"
+    ]
+  },
+  "1": {
+    "topic_name": "Embodiment",
+    "questions": [
+      "What is the comparator model? (Take focus on sensory feedback)",
+      "What is statistical optimal perception?",
+      "Explain the ownership, location, and agency embodiment scores.",
+      "How can embodied robot prosthetics assist amputees?",
+      "What is sensory substitution and supplementation?",
+      "How can you measure embodiment?"
+    ]
+  },
+  "2": {
+    "topic_name": "Electrophysiology",
+    "questions": [
+      "What is a “Brain-Computer Interface” and what relevance does it have for prosthetics?",
+      "Why do nerves and muscles produce electrical signals?",
+      "What are the advantages/disadvantages of stimulating/recording; the brain, spinal cord, peripheral nerves, or muscles, for prosthetic applications? How does this depend on the type/purpose of the prosthetic?",
+      "What are the advantages/disadvantages of implanting electrodes vs. using surface electrodes for control of a robotic assistive device?",
+      "Which safety considerations should be made when interfacing the body with electrical systems for extended periods of time (and potentially invasively)?"
+    ]
+  },
+  "3": {
+    "topic_name": "Clinical Aspects of HRI",
+    "questions": [
+      "Discuss the pros and cons of using human-likeness in the design of Human-Robot Interaction.",
+      "Discuss the roles of engineers, scientists, and designers, in developing human-robot interaction, and the challenges inherent in their collaboration.",
+      "Discuss unique challenges in human-robot interactions with medical robots in general.",
+      "Discuss unique challenges in human-robot interactions with the DaVinci robot.",
+      "Explain some of the factors important for trusting a robot.",
+      "Who are the two main stakeholders for medical robots and explain some of their requirements for human-robot interactions.",
+      "Explain why ergonomics, workspace and footprint are important requirements for interactions with a surgical robot.",
+      "Explain utilitarianism in healthcare and its relation to ethics. In your explanation, include QALY.",
+      "Explain some of the five qualities of a trustworthy AI.",
+      "Discuss the challenges related to errors made by an AI and liability in healthcare.",
+      "Discuss the possibilities and challenges with using BCI for consent in comatose or locked-in patients.",
+      "Explain the purpose of an “ethical (research) protocol” and explain the difference between the ethical (research) protocol and the Participant information is."
+    ]
+  },
+  "4": {
+    "topic_name": "Social Aspects of HRI",
+    "questions": [
+      "What is the agent paradigm and why is it useful for HRI?",
+      "What are the functions of gestures in HRI?",
+      "What are expressivity parameters and which information about the user can we derive from them?",
+      "What is proxemics and how is it relevant for robots moving in dynamic public places?",
+      "What are the three challenges for an affective robot and how are they tackled?",
+      "Why are dimensional models of emotion well suited for emotion recognition?"
+    ]
+  },
+  "5": {
+    "topic_name": "Usability Testing",
+    "questions": [
+      "What is usability based on ISO definition and what are the main three elements of it?",
+      "Name three methods for ensuring usability of a product.",
+      "What is “co-discovery” testing technique in usability testing?",
+      "Name three differences between a usability test and a functionality test.",
+      "Why it is important to know about usability testing for developing medical robots?",
+      "What is “Discount usability testing” and what is the advantage of it?"
+    ]
+  },
+  "6": {
+    "topic_name": "Generative AI for HRI",
+    "questions": [
+      "Describe the conventional NLP modules typically found in social robots and explain how LLMs are posited to replace these components, referencing specific examples mentioned in the text.",
+      "Several prompting techniques are available to allow for reducing hallucinations and making results more relevant. Name three techniques and explain how they try to prevent hallucinations.",
+      "Explain the core architecture of the Transformer model as described in the source, including the Attention mechanism and the MultiHead attention mechanism.",
+      "Detail the roles of the \"Say\" and \"Can\" components within the SayCan framework, including how their respective outputs are combined to select the next action.",
+      "Describe the iterative planning process in SayCan. How does the system maintain context across multiple steps to complete long-horizon tasks?",
+      "Explain the role of value functions as affordance functions in SayCan. How are these value functions obtained and utilized to influence skill selection?",
+      "SayCan's evaluation metrics include \"plan success rate\" and \"execution success rate.\" Define these metrics and explain why both are important for assessing the overall performance of the system."
+    ]
+  }
+}
