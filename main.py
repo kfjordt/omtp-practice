@@ -34,7 +34,7 @@ def get_llm_model():
 
 
 def get_questions_file_path(questions_id: str):
-    return f"data/{questions_id}.json"
+    return f"data/{questions_id}_questions.json"
 
 
 def get_state_file_path(questions_id: str):
