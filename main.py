@@ -34,15 +34,15 @@ def get_llm_model():
 
 
 def get_questions_file_path(questions_id: str):
-    return f"{questions_id}.json"
+    return f"data/{questions_id}.json"
 
 
 def get_state_file_path(questions_id: str):
-    return f"{questions_id}_state.json"
+    return f"data/{questions_id}_state.json"
 
 
 def get_answers_file_path(questions_id: str):
-    return f"{questions_id}_answers.json"
+    return f"data/{questions_id}_answers.json"
 
 
 def load_state(questions_id: str):
