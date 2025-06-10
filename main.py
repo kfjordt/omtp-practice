@@ -41,10 +41,22 @@ def get_state_file_path(questions_id: str):
     return f"{questions_id}_state.json"
 
 
+def get_answers_file_path(questions_id: str):
+    return f"{questions_id}_answers.json"
+
+
 def load_state(questions_id: str):
     state_file_path = get_state_file_path(questions_id)
     with open(state_file_path, "r") as state_file:
         return json.load(state_file)
+
+
+def load_own_answers(questions_id: str) -> None | dict:
+    answers_file_path = get_answers_file_path(questions_id)
+    if not os.path.exists(answers_file_path):
+        return None
+    with open(answers_file_path, "r") as answers_file:
+        return json.load(answers_file)
 
 
 def load_questions(questions_id: str):
@@ -79,6 +91,13 @@ def mark_question_as_complete(topic_id: str, question_idx: int, questions_id: st
     dump_state(state, questions_id)
 
 
+def get_own_answer(topic_id: str, question_idx: int, questions_id: str):
+    own_answers = load_own_answers(questions_id)
+    if own_answers is None:
+        return None
+    return own_answers[topic_id][question_idx]
+
+
 def get_random_question_and_mark_as_complete(questions_id: str):
     state = load_state(questions_id)
     unseen_question_tuples = []
@@ -98,7 +117,7 @@ def get_random_question_and_mark_as_complete(questions_id: str):
     topic_name = questions[topic_id]["topic_name"]
     question_content = questions[topic_id]["questions"][question_idx]
 
-    return topic_id, topic_name, question_content
+    return topic_id, topic_name, question_content, question_idx
 
 
 def get_completion_rate(questions_id: str):
@@ -161,18 +180,26 @@ while True:
             result = get_random_question_and_mark_as_complete(questions_id)
             if not result:
                 continue
-            topic_id, topic_name, question_content = result
+            topic_id, topic_name, question_content, question_idx = result
             print()
             print(f"{YELLOW}Topic #{topic_id}: {topic_name}{RESET}")
             print(YELLOW + question_content + RESET)
             while True:
                 print()
                 print(CYAN + "1 - Finish question" + RESET)
-                print(CYAN + "2 - Get LLM reply" + RESET)
+                print(CYAN + "2 - Get own answer" + RESET)
+                print(CYAN + "3 - Get LLM answer" + RESET)
                 inner_choice = input("")
                 if inner_choice == "1":
                     break
-                elif inner_choice == "2":
+                if inner_choice == "2":
+                    own_answer = get_own_answer(topic_id, question_idx, questions_id)
+                    if own_answer is not None:
+                        print()
+                        print(GREEN + own_answer + RESET)
+                    else:
+                        print(RED + "Own answer not available." + RESET)
+                elif inner_choice == "3":
                     if llm_model is not None:
                         chat_gpt_answer = prompt_llm(question_content, llm_model)
                         print()
@@ -184,11 +211,7 @@ while True:
         elif choice == "2":
             completed_questions, question_count_total = get_completion_rate(questions_id)
             completion_percent = (completed_questions / float(question_count_total)) * 100
-            print(
-                MAGENTA
-                + f"\nCurrent completion rate: {completed_questions}/{question_count_total} ({completion_percent:.1f}%)"
-                + RESET
-            )
+            print(MAGENTA + f"\nCurrent completion rate: {completed_questions}/{question_count_total} ({completion_percent:.1f}%)" + RESET)
         elif choice == "3":
             initialize_state_file(questions_id)
             print(BLUE + "State has been reset." + RESET)

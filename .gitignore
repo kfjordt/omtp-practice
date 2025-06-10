@@ -1,2 +1,4 @@
 *_state.json
 key.txt
+*.md
+parse_answers.py
