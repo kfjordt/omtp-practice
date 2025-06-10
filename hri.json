@@ -1,5 +1,5 @@
 {
-  "0": {
+  "1": {
     "topic_name": "Introduction to HRI",
     "questions": [
       "What are questions that HRI is asking compared to Robotics in general?",
@@ -9,7 +9,7 @@
       "What is the difference between Industry 4.0 and 5.0 and why is HRI increasingly relevant in Industry 5.0?"
     ]
   },
-  "1": {
+  "2": {
     "topic_name": "Embodiment",
     "questions": [
       "What is the comparator model? (Take focus on sensory feedback)",
@@ -20,7 +20,7 @@
       "How can you measure embodiment?"
     ]
   },
-  "2": {
+  "3": {
     "topic_name": "Electrophysiology",
     "questions": [
       "What is a “Brain-Computer Interface” and what relevance does it have for prosthetics?",
@@ -30,7 +30,7 @@
       "Which safety considerations should be made when interfacing the body with electrical systems for extended periods of time (and potentially invasively)?"
     ]
   },
-  "3": {
+  "4": {
     "topic_name": "Clinical Aspects of HRI",
     "questions": [
       "Discuss the pros and cons of using human-likeness in the design of Human-Robot Interaction.",
@@ -47,7 +47,7 @@
       "Explain the purpose of an “ethical (research) protocol” and explain the difference between the ethical (research) protocol and the Participant information is."
     ]
   },
-  "4": {
+  "5": {
     "topic_name": "Social Aspects of HRI",
     "questions": [
       "What is the agent paradigm and why is it useful for HRI?",
@@ -58,7 +58,7 @@
       "Why are dimensional models of emotion well suited for emotion recognition?"
     ]
   },
-  "5": {
+  "6": {
     "topic_name": "Usability Testing",
     "questions": [
       "What is usability based on ISO definition and what are the main three elements of it?",
@@ -69,7 +69,7 @@
       "What is “Discount usability testing” and what is the advantage of it?"
     ]
   },
-  "6": {
+  "7": {
     "topic_name": "Generative AI for HRI",
     "questions": [
       "Describe the conventional NLP modules typically found in social robots and explain how LLMs are posited to replace these components, referencing specific examples mentioned in the text.",
